@@ -1,0 +1,12 @@
+apiVersion: 1.0.0
+metadata:
+  name: che-java-sample-tests
+projects:
+  - name: che-java-test-theia-plugin
+    source:
+      location: 'https://github.com/jpinkney/che-java-test-theia-plugin.git'
+      type: git
+components:
+  - id: redhat/java8/latest
+    type: chePlugin
+  - reference: the_meta.yaml
