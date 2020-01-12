@@ -1,5 +1,5 @@
 {
-  "name": "Che-Java-Test-Theia-Plugin",
+  "name": "che-java-test-theia-plugin",
   "publisher": "theia",
   "keywords": [
     "theia-plugin"
@@ -14,7 +14,7 @@
   ],
   "devDependencies": {
     "@eclipse-che/plugin": "0.0.1-1576925688",
-    "@eclipse-che/testing-service": "file:/projects/theia/che/che-theia/extensions/eclipse-che-testing-service",
+    "@eclipse-che/testing-service": "file:/projects/theia/che/che-theia/extensions/eclipse-che-theia-testing-service",
     "@theia/plugin": "next",
     "@theia/plugin-packager": "latest",
     "@types/mocha": "^5.2.7",
@@ -40,7 +40,5 @@
   },
   "theiaPlugin": {
     "backend": "lib/src/extension.js"
-  },
-  "cheSidecar": "vscode-java",
-  "dependencies": {}
+  }
 }

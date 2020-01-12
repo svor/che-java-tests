@@ -19,7 +19,9 @@
         "rootDirs": [
             "src",
             "tests"
-        ]
+        ],
+        "skipDefaultLibCheck": true,
+        "skipLibCheck": true
     },
     "include": [
         "src",

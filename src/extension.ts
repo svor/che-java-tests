@@ -10,7 +10,7 @@
 
 import * as theia from '@theia/plugin';
 import * as path from 'path';
-process.env.TS_NODE_PROJECT = path.join(__dirname, "../tsconfig.json");
+process.env.TS_NODE_PROJECT = path.join(__dirname, "../../tsconfig.json");
 require('ts-mocha');
 import Mocha from 'mocha';
 
