@@ -11,5 +11,8 @@
 import * as path from 'path';
 import * as vscode from '@theia/plugin';
 
+export async function sleep(ms: number) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
 export const getSrcDocPath = (p: string) => path.resolve(__dirname, '../testWorkspace/src/main/java/org/my/sample', p);
 export const getSrcDocUri = (p: string) => vscode.Uri.file(getSrcDocPath(p));

@@ -12,6 +12,7 @@ import * as testservice from '@eclipse-che/testing-service';
 import * as vscode from '@theia/plugin';
 import * as helper from './helper';
 import { strict as assert } from 'assert';
+import { sleep } from './helper';
 
 describe('Che-Java sample tests on Quarkus Project', () => {
 
@@ -19,7 +20,10 @@ describe('Che-Java sample tests on Quarkus Project', () => {
     const mySampleURI = helper.getSrcDocUri('MySample.java');
     const extensionID = 'redhat.java';
 
-    // // tslint:disable
+    beforeEach(async () => {
+        await sleep(2000);
+    })
+
     it('Test Java Completion on sample java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
         const completion: any = await testservice.languageserver.completion(extensionID,
@@ -60,7 +64,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
             });
         } else {
             assert.fail(
-                "Expected an array of type definitions but tpy"
+                "Expected an array of type definitions"
             )
         }
     });
@@ -81,7 +85,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
             });
         } else {
             assert.fail(
-                "Expected an array of type definitions but tpy"
+                "Expected an array of type definitions"
             )
         }
     });
