@@ -1,4 +1,4 @@
-# Che-Test-Theia-Plugin
+# Che-Java-Test-Theia-Plugin
 These tests are Java tests that communicate with vscode-java running inside of Che.
 The tests are running against a sample quarkus application.
 
@@ -19,11 +19,12 @@ Then run `npm install` in the root of this directory.
 Then since the tests are essentially just a theia plugins you can develop and debug the tests using the hosted instance.
 `Hosted plugin: Debug instance` or `Hosted plugin: Start instance`
 
-and then open the testWorkspace folder
+and then open the testWorkspace folder in your hosted instance.
 
 #### Running these tests automatically when a workspace starts
 You may want to run your tests automatically when you are starting your workspace from a devfile for testing.
 In order to do this you'll need a few things:
+
     1. Your test cases implemented as a theia plugin (like this project)
     2. A meta.yaml referencing your theia plugin
     3. A devfile referencing your meta.yaml
