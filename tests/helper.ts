@@ -11,6 +11,11 @@
 import * as path from 'path';
 import * as vscode from '@theia/plugin';
 
+export const extensionID = 'redhat.java';
+
+export function closeAllOpenFiles() {
+    vscode.window.visibleTextEditors.map(file => vscode.commands.executeCommand('workbench.action.closeActiveEditor', file.document.uri));
+}
 export async function sleep(ms: number) {
 	return new Promise(resolve => setTimeout(resolve, ms));
 }

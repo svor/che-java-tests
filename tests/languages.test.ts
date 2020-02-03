@@ -11,16 +11,19 @@
 import * as testservice from '@eclipse-che/testing-service';
 import * as vscode from '@theia/plugin';
 import * as helper from './helper';
+import { extensionID } from './helper';
 import { strict as assert } from 'assert';
 import { sleep } from './helper';
+import { ResourceTextEditDto } from '../../theia/packages/plugin-ext/lib/common/plugin-api-rpc';
 
 describe('Che-Java sample tests on Quarkus Project', () => {
 
     const myHelloTextURI = helper.getSrcDocUri('MyHelloText.java');
     const mySampleURI = helper.getSrcDocUri('MySample.java');
-    const extensionID = 'redhat.java';
 
     beforeEach(async () => {
+        // Ensure all files are closed
+        helper.closeAllOpenFiles();
         await sleep(2000);
     })
 
@@ -132,6 +135,118 @@ describe('Che-Java sample tests on Quarkus Project', () => {
                 startColumn: 28,
                 startLineNumber: 15
             });
+        }
+    });
+
+    it('Test Java code lens on basic java file', async () => {
+        await vscode.window.showTextDocument(mySampleURI);
+        const codeLens = await testservice.languageserver.codeLenses(extensionID, mySampleURI, new vscode.CancellationTokenSource().token);
+        if (codeLens) {
+            assert.notEqual(codeLens.length, 0);
+        } else {
+            assert.fail();
+        }
+    });
+
+    it('Test Java document links on basic java file', async () => {
+        await vscode.window.showTextDocument(mySampleURI);
+        const renameEdits = await testservice.languageserver.renameEdits(extensionID, mySampleURI, {
+            column: 23,
+            lineNumber: 15
+        }, "text", new vscode.CancellationTokenSource().token);
+        if (renameEdits) {
+            assert.equal(renameEdits.edits.length, 1);
+            assert.equal((renameEdits.edits as ResourceTextEditDto[])[0].edits[0].text, "text = new MyHelloText();\n        return text");
+            assert.equal((renameEdits.edits as ResourceTextEditDto[])[0].resource.path, mySampleURI.path);
+        } else {
+            assert.fail();
+        }
+    });
+
+    it('Test Java document formatting on basic java file', async () => {
+        await vscode.window.showTextDocument(mySampleURI);
+        const formattingEdits = await testservice.languageserver.documentFormattingEdits(extensionID, mySampleURI, {
+            insertSpaces: true,
+            tabSize: 2
+        }, new vscode.CancellationTokenSource().token);
+        if (formattingEdits) {
+            assert.equal(formattingEdits.length, 6);
+              assert.equal(formattingEdits[0].text, "\n\n  ");
+              assert.deepEqual(formattingEdits[0].range, {
+                endColumn: 5,
+                endLineNumber: 11,
+                startColumn: 24,
+                startLineNumber: 9
+              });
+              assert.equal(formattingEdits[1].text, "\n  ");
+              assert.deepEqual(formattingEdits[1].range, {
+                endColumn: 5,
+                endLineNumber: 12,
+                startColumn: 9,
+                startLineNumber: 11
+              });
+              assert.equal(formattingEdits[2].text, "\n  ");
+              assert.deepEqual(formattingEdits[2].range, {
+                endColumn: 5,
+                endLineNumber: 13,
+                startColumn: 36,
+                startLineNumber: 12
+              });
+              assert.equal(formattingEdits[3].text, "\n\n    ");
+              assert.deepEqual(formattingEdits[3].range, {
+                endColumn: 9,
+              endLineNumber: 15,
+                startColumn: 28,
+                startLineNumber: 13
+              });
+              assert.equal(formattingEdits[4].text, "\n    ");
+              assert.deepEqual(formattingEdits[4].range, {
+                endColumn: 9,
+                endLineNumber: 16,
+                startColumn: 46,
+                startLineNumber: 15
+              });
+              assert.equal(formattingEdits[5].text, "\n  ");
+              assert.deepEqual(formattingEdits[5].range, {
+                endColumn: 5,
+                endLineNumber: 17,
+                startColumn: 31,
+                startLineNumber: 16
+              });
+        } else {
+            assert.fail();
+        }
+    });
+
+    it('Test Java range formatting on basic java file', async () => {
+        await vscode.window.showTextDocument(mySampleURI);
+        const formattingEdits = await testservice.languageserver.documentRangeFormattingEdits(extensionID, mySampleURI, {
+            startColumn: 1,
+            startLineNumber: 1,
+            endColumn: 25,
+            endLineNumber: 10
+        }, {
+            insertSpaces: true,
+            tabSize: 2
+        }, new vscode.CancellationTokenSource().token);
+        if (formattingEdits) {
+            assert.equal(formattingEdits.length, 2);
+              assert.equal(formattingEdits[0].text, "\n\n  ");
+              assert.deepEqual(formattingEdits[0].range, {
+                endColumn: 5,
+                endLineNumber: 11,
+                startColumn: 24,
+                startLineNumber: 9
+              });
+              assert.equal(formattingEdits[1].text, "\n  ");
+              assert.deepEqual(formattingEdits[1].range, {
+                endColumn: 5,
+                endLineNumber: 12,
+                startColumn: 9,
+                startLineNumber: 11
+              });
+        } else {
+            assert.fail();
         }
     });
     // tslint:enable
