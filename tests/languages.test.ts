@@ -171,48 +171,48 @@ describe('Che-Java sample tests on Quarkus Project', () => {
         }, new vscode.CancellationTokenSource().token);
         if (formattingEdits) {
             assert.equal(formattingEdits.length, 6);
-              assert.equal(formattingEdits[0].text, "\n\n  ");
-              assert.deepEqual(formattingEdits[0].range, {
+            assert.equal(formattingEdits[0].text, "\n\n  ");
+            assert.deepEqual(formattingEdits[0].range, {
                 endColumn: 5,
                 endLineNumber: 11,
                 startColumn: 24,
                 startLineNumber: 9
-              });
-              assert.equal(formattingEdits[1].text, "\n  ");
-              assert.deepEqual(formattingEdits[1].range, {
+            });
+            assert.equal(formattingEdits[1].text, "\n  ");
+            assert.deepEqual(formattingEdits[1].range, {
                 endColumn: 5,
                 endLineNumber: 12,
                 startColumn: 9,
                 startLineNumber: 11
-              });
-              assert.equal(formattingEdits[2].text, "\n  ");
-              assert.deepEqual(formattingEdits[2].range, {
+            });
+            assert.equal(formattingEdits[2].text, "\n  ");
+            assert.deepEqual(formattingEdits[2].range, {
                 endColumn: 5,
                 endLineNumber: 13,
                 startColumn: 36,
                 startLineNumber: 12
-              });
-              assert.equal(formattingEdits[3].text, "\n\n    ");
-              assert.deepEqual(formattingEdits[3].range, {
+            });
+            assert.equal(formattingEdits[3].text, "\n\n    ");
+            assert.deepEqual(formattingEdits[3].range, {
                 endColumn: 9,
-              endLineNumber: 15,
+                endLineNumber: 15,
                 startColumn: 28,
                 startLineNumber: 13
-              });
-              assert.equal(formattingEdits[4].text, "\n    ");
-              assert.deepEqual(formattingEdits[4].range, {
+            });
+            assert.equal(formattingEdits[4].text, "\n    ");
+            assert.deepEqual(formattingEdits[4].range, {
                 endColumn: 9,
                 endLineNumber: 16,
                 startColumn: 46,
                 startLineNumber: 15
-              });
-              assert.equal(formattingEdits[5].text, "\n  ");
-              assert.deepEqual(formattingEdits[5].range, {
+            });
+            assert.equal(formattingEdits[5].text, "\n  ");
+            assert.deepEqual(formattingEdits[5].range, {
                 endColumn: 5,
                 endLineNumber: 17,
                 startColumn: 31,
                 startLineNumber: 16
-              });
+            });
         } else {
             assert.fail();
         }
@@ -226,25 +226,25 @@ describe('Che-Java sample tests on Quarkus Project', () => {
             endColumn: 25,
             endLineNumber: 10
         }, {
-            insertSpaces: true,
-            tabSize: 2
-        }, new vscode.CancellationTokenSource().token);
+                insertSpaces: true,
+                tabSize: 2
+            }, new vscode.CancellationTokenSource().token);
         if (formattingEdits) {
             assert.equal(formattingEdits.length, 2);
-              assert.equal(formattingEdits[0].text, "\n\n  ");
-              assert.deepEqual(formattingEdits[0].range, {
+            assert.equal(formattingEdits[0].text, "\n\n  ");
+            assert.deepEqual(formattingEdits[0].range, {
                 endColumn: 5,
                 endLineNumber: 11,
                 startColumn: 24,
                 startLineNumber: 9
-              });
-              assert.equal(formattingEdits[1].text, "\n  ");
-              assert.deepEqual(formattingEdits[1].range, {
+            });
+            assert.equal(formattingEdits[1].text, "\n  ");
+            assert.deepEqual(formattingEdits[1].range, {
                 endColumn: 5,
                 endLineNumber: 12,
                 startColumn: 9,
                 startLineNumber: 11
-              });
+            });
         } else {
             assert.fail();
         }

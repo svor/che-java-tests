@@ -32,3 +32,8 @@ In order to do this you'll need a few things:
 The idea is that when you start a workspace with your devfile the testWorkspace will be the root of the application
 and the tests will be loaded into mocha and executed against the current running workspace.
 
+#### Possible Improvements
+Currently because of https://github.com/eclipse/che/issues/15826 we are restricted on some tests we could make. For instance,
+once this feature resolves we can activate the extension from inside the tests and then check whether 
+[vscode-java extension api](https://github.com/redhat-developer/vscode-java/blob/master/src/extension.api.ts#L14) is set to
+"Started" or "Error".

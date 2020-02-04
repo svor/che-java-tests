@@ -17,7 +17,7 @@ export function closeAllOpenFiles() {
     vscode.window.visibleTextEditors.map(file => vscode.commands.executeCommand('workbench.action.closeActiveEditor', file.document.uri));
 }
 export async function sleep(ms: number) {
-	return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 export const getSrcDocPath = (p: string) => path.resolve(__dirname, '../testWorkspace/src/main/java/org/my/sample', p);
 export const getSrcDocUri = (p: string) => vscode.Uri.file(getSrcDocPath(p));

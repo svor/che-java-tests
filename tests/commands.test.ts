@@ -38,7 +38,7 @@ describe('Test that vscode-java commands are working successfully', () => {
         const isClientLogFileOpen = vscode.window.visibleTextEditors.filter(editor => editor.document.fileName.startsWith('client.log'));
         assert.ok(isClientLogFileOpen);
     });
-    
+
     it('Test Java Open all log files', async () => {
         // Ensure all files are closed
         closeAllOpenFiles();
