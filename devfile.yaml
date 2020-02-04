@@ -9,4 +9,4 @@ projects:
 components:
   - id: redhat/java8/latest
     type: chePlugin
-  - reference: the_meta.yaml
+  - reference: https://raw.githubusercontent.com/JPinkney/Che-Java-Tests/master/meta.yaml

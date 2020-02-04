@@ -1,10 +1,10 @@
 apiVersion: v2
-publisher: sample-test
-name: sample-java-tests-plugin
+publisher: Red Hat
+name: Java Smoke Test Plugin
 version: 0.0.1
 type: Theia plugin
-displayName: Sample Java Tests Plugin
-title: Sample Java Tests Plugin
+displayName: Java Smoke Test Plugin
+title: Java Smoke Test Plugin
 description: This plug-in runs Java tests against vscode-java inside of your workspace
 icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
 repository: https://github.com/redhat-developer/omnisharp-theia-plugin
@@ -12,4 +12,4 @@ category: Language
 firstPublicationDate: "2020-01-07"
 spec:
   extensions:
-    - Che_Java_Test_Theia_Plugin.theia
+    - https://github.com/JPinkney/Che-Java-Tests/raw/master/che_java_test_theia_plugin.theia
