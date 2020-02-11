@@ -13,7 +13,6 @@ import * as vscode from '@theia/plugin';
 import * as helper from './helper';
 import { extensionID } from './helper';
 import { strict as assert } from 'assert';
-import { sleep } from './helper';
 import { ResourceTextEditDto } from '../../theia/packages/plugin-ext/lib/common/plugin-api-rpc';
 
 describe('Che-Java sample tests on Quarkus Project', () => {
@@ -24,7 +23,6 @@ describe('Che-Java sample tests on Quarkus Project', () => {
     beforeEach(async () => {
         // Ensure all files are closed
         helper.closeAllOpenFiles();
-        await sleep(2000);
     })
 
     it('Test Java Completion on sample java file', async () => {
@@ -135,16 +133,6 @@ describe('Che-Java sample tests on Quarkus Project', () => {
                 startColumn: 28,
                 startLineNumber: 15
             });
-        }
-    });
-
-    it('Test Java code lens on basic java file', async () => {
-        await vscode.window.showTextDocument(mySampleURI);
-        const codeLens = await testservice.languageserver.codeLenses(extensionID, mySampleURI, new vscode.CancellationTokenSource().token);
-        if (codeLens) {
-            assert.notEqual(codeLens.length, 0);
-        } else {
-            assert.fail();
         }
     });
 
