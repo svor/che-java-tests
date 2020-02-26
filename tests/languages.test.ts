@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  **********************************************************************/
 
-import * as testservice from '@eclipse-che/testing-service';
+import * as che from '@eclipse-che/plugin';
 import * as vscode from '@theia/plugin';
 import * as helper from './helper';
 import { extensionID } from './helper';
@@ -27,7 +27,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java Completion on sample java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-        const completion: any = await testservice.languageserver.completion(extensionID,
+        const completion: any = await che.test.languageserver.completion(extensionID,
             mySampleURI, {
                 column: 1,
                 lineNumber: 13
@@ -39,7 +39,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java Document Symbols on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-        const symbols = await testservice.languageserver.documentSymbols(extensionID, mySampleURI, new vscode.CancellationTokenSource().token);
+        const symbols = await che.test.languageserver.documentSymbols(extensionID, mySampleURI, new vscode.CancellationTokenSource().token);
         assert.notEqual(symbols, undefined);
         if (symbols) {
             assert.equal(symbols.length, 2);
@@ -50,7 +50,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java implementation on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-        const implementation = await testservice.languageserver.implementation(extensionID, mySampleURI, {
+        const implementation = await che.test.languageserver.implementation(extensionID, mySampleURI, {
             column: 39,
             lineNumber: 14
         }, new vscode.CancellationTokenSource().token);
@@ -72,7 +72,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java type definition on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-        const typeDefinition = await testservice.languageserver.typeDefinition(extensionID, mySampleURI, {
+        const typeDefinition = await che.test.languageserver.typeDefinition(extensionID, mySampleURI, {
             column: 35,
             lineNumber: 14
         }, new vscode.CancellationTokenSource().token);
@@ -93,7 +93,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java hover on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-        const hover = await testservice.languageserver.hover(extensionID, mySampleURI, {
+        const hover = await che.test.languageserver.hover(extensionID, mySampleURI, {
             column: 35,
             lineNumber: 14
         }, new vscode.CancellationTokenSource().token);
@@ -109,7 +109,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
     });
 
     it('Test Java Workspace Symbols on basic java file', async () => {
-        const workspaceSymbols = await testservice.languageserver.workspaceSymbols(extensionID, "MySample",
+        const workspaceSymbols = await che.test.languageserver.workspaceSymbols(extensionID, "MySample",
             new vscode.CancellationTokenSource().token);
         assert.notEqual(workspaceSymbols.length, 0, 'The workspace symbols request returned 0 results when it should have returned at least 1');
         assert.equal(workspaceSymbols[0].name, "MySample");
@@ -117,7 +117,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java references on basic java file', async () => {
         await vscode.window.showTextDocument(myHelloTextURI);
-        const references = await testservice.languageserver.references(extensionID, myHelloTextURI, {
+        const references = await che.test.languageserver.references(extensionID, myHelloTextURI, {
             column: 16,
             lineNumber: 6
         }, {
@@ -138,7 +138,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java document links on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-        const renameEdits = await testservice.languageserver.renameEdits(extensionID, mySampleURI, {
+        const renameEdits = await che.test.languageserver.renameEdits(extensionID, mySampleURI, {
             column: 23,
             lineNumber: 15
         }, "text", new vscode.CancellationTokenSource().token);
@@ -153,7 +153,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java document formatting on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-        const formattingEdits = await testservice.languageserver.documentFormattingEdits(extensionID, mySampleURI, {
+        const formattingEdits = await che.test.languageserver.documentFormattingEdits(extensionID, mySampleURI, {
             insertSpaces: true,
             tabSize: 2
         }, new vscode.CancellationTokenSource().token);
@@ -208,7 +208,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java range formatting on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-        const formattingEdits = await testservice.languageserver.documentRangeFormattingEdits(extensionID, mySampleURI, {
+        const formattingEdits = await che.test.languageserver.documentRangeFormattingEdits(extensionID, mySampleURI, {
             startColumn: 1,
             startLineNumber: 1,
             endColumn: 25,

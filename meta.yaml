@@ -7,7 +7,7 @@ displayName: Java Smoke Test Plugin
 title: Java Smoke Test Plugin
 description: This plug-in runs Java tests against vscode-java inside of your workspace
 icon: https://www.eclipse.org/che/images/logo-eclipseche.svg
-repository: https://github.com/redhat-developer/omnisharp-theia-plugin
+repository: https://github.com/jpinkney/Che-Java-Tests
 category: Language
 firstPublicationDate: "2020-01-07"
 spec:

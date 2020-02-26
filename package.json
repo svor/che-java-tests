@@ -13,9 +13,9 @@
     "*"
   ],
   "devDependencies": {
-    "@eclipse-che/plugin": "0.0.1-1576925688",
-    "@eclipse-che/testing-service": "file:/projects/theia/che/che-theia/extensions/eclipse-che-theia-testing-service",
+    "@eclipse-che/plugin": "file:/projects/theia/che/che-theia/extensions/eclipse-che-theia-plugin",
     "@theia/plugin": "next",
+    "@theia/plugin-ext": "next",
     "@theia/plugin-packager": "latest",
     "@types/mocha": "^5.2.7",
     "@types/node": "^13.1.4",
