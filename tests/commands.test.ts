@@ -10,13 +10,19 @@
 
 import * as vscode from '@theia/plugin';
 import { strict as assert } from 'assert';
-import { closeAllOpenFiles } from './helper';
+import { closeAllOpenFiles, getSrcDocUri } from './helper';
 
 describe('Test that vscode-java commands are working successfully', () => {
 
     const serverLogCmd = 'java.open.serverLog';
     const clientLogCmd = 'java.open.clientLog';
     const openAllLogs = 'java.open.logs';
+
+    before('Make sure vscode-java is activated', () => {
+        const myHelloTextURI = getSrcDocUri('MyHelloText.java');
+        vscode.workspace.openTextDocument(myHelloTextURI);
+        closeAllOpenFiles();
+    });
 
     it('Test Java Open all log files', async () => {
 

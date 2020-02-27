@@ -13,7 +13,7 @@ import * as vscode from '@theia/plugin';
 import * as helper from './helper';
 import { extensionID } from './helper';
 import { strict as assert } from 'assert';
-import { ResourceTextEditDto } from '@theia/plugin-ext/lib/common/plugin-api-rpc';
+// import { ResourceTextEditDto } from '@theia/plugin-ext/lib/common/plugin-api-rpc';
 
 describe('Che-Java sample tests on Quarkus Project', () => {
 
@@ -144,8 +144,8 @@ describe('Che-Java sample tests on Quarkus Project', () => {
         }, "text", new vscode.CancellationTokenSource().token);
         if (renameEdits) {
             assert.equal(renameEdits.edits.length, 1);
-            assert.equal((renameEdits.edits as ResourceTextEditDto[])[0].edits[0].text, "text = new MyHelloText();\n        return text");
-            assert.equal((renameEdits.edits as ResourceTextEditDto[])[0].resource.path, mySampleURI.path);
+            assert.equal((renameEdits.edits as any[])[0].edits[0].text, "text = new MyHelloText();\n        return text");
+            assert.equal((renameEdits.edits as any[])[0].resource.path, mySampleURI.path);
         } else {
             assert.fail();
         }
