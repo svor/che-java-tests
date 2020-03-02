@@ -18,9 +18,9 @@ describe('Test that vscode-java commands are working successfully', () => {
     const clientLogCmd = 'java.open.clientLog';
     const openAllLogs = 'java.open.logs';
 
-    before('Make sure vscode-java is activated', () => {
+    before('Make sure vscode-java is activated', async () => {
         const myHelloTextURI = getSrcDocUri('MyHelloText.java');
-        vscode.workspace.openTextDocument(myHelloTextURI);
+        await vscode.window.showTextDocument(myHelloTextURI);
         closeAllOpenFiles();
     });
 
