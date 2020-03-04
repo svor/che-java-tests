@@ -13,17 +13,14 @@ import * as path from 'path';
 process.env.TS_NODE_PROJECT = path.join(__dirname, "../../tsconfig.json");
 require('ts-mocha');
 import Mocha from 'mocha';
-import fs from 'fs';
+const testReporter = require('./test-reporter');
 
 export function start(context: theia.PluginContext): void {
-
-    console.log('Attempting to start the extension');
-
     const mocha = new Mocha({
         ui: 'bdd',
-        timeout: 60000
+        timeout: 60000,
+        reporter: testReporter
     });
-    fs.write
     mocha.useColors(true);
     const e = (c: any) => console.log(c);
     theia.workspace.findFiles('**/tests/*.test.ts', undefined).then(files => {

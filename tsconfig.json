@@ -21,7 +21,8 @@
             "tests"
         ],
         "skipDefaultLibCheck": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "noImplicitThis": false
     },
     "include": [
         "src",
