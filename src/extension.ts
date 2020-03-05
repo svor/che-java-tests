@@ -14,6 +14,7 @@ process.env.TS_NODE_PROJECT = path.join(__dirname, "../../tsconfig.json");
 require('ts-mocha');
 import Mocha from 'mocha';
 const testReporter = require('./test-reporter');
+const ncp = require('ncp').ncp;
 
 export function start(context: theia.PluginContext): void {
     const mocha = new Mocha({
@@ -25,12 +26,13 @@ export function start(context: theia.PluginContext): void {
 
     const e = (c: any) => console.log(c);
 
-    theia.workspace.findFiles(`${context.extensionPath}/**/tests/*.test.ts`, undefined).then(files => {
-        console.log("Testing extension path: ");
-        console.log(context.extensionPath);
-        console.log("Found in: ");
-        console.log(files);
+    ncp(context.extensionPath, '/projects', (err: any) => {
+        if (err) {
+            return console.error(err);
+        }
+        console.log('done!');
     });
+
     theia.workspace.findFiles('**/tests/*.test.ts', undefined).then(files => {
 
         console.log("Found: ");
