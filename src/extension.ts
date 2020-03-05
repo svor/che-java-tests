@@ -28,6 +28,8 @@ export function start(context: theia.PluginContext): void {
     theia.workspace.findFiles(`${context.extensionPath}/**/tests/*.test.ts`, undefined).then(files => {
         console.log("Testing extension path: ");
         console.log(context.extensionPath);
+        console.log("Found in: ");
+        console.log(files);
     });
     theia.workspace.findFiles('**/tests/*.test.ts', undefined).then(files => {
 
