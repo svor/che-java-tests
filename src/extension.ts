@@ -30,28 +30,28 @@ export function start(context: theia.PluginContext): void {
         if (err) {
             return console.error(err);
         }
-        console.log('done!');
+
+        theia.workspace.findFiles('**/tests/*.test.ts', undefined).then(files => {
+            console.log("Found: ");
+            console.log(files);
+
+            // Add files to the test suite
+            files.forEach(f => mocha.addFile(path.resolve(f.path)));
+
+            try {
+                // Run the mocha test
+                mocha.run((failures: any) => {
+                    if (failures > 0) {
+                        e(new Error(`${failures} tests failed.`));
+                    }
+                });
+            } catch (err) {
+                e(err);
+            }
+        });
     });
 
-    theia.workspace.findFiles('**/tests/*.test.ts', undefined).then(files => {
 
-        console.log("Found: ");
-        console.log(files);
-
-        // Add files to the test suite
-        files.forEach(f => mocha.addFile(path.resolve(f.path)));
-
-        try {
-            // Run the mocha test
-            mocha.run((failures: any) => {
-                if (failures > 0) {
-                    e(new Error(`${failures} tests failed.`));
-                }
-            });
-        } catch (err) {
-            e(err);
-        }
-    });
 }
 
 export function stop() {
