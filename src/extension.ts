@@ -25,6 +25,9 @@ export function start(context: theia.PluginContext): void {
     const e = (c: any) => console.log(c);
     theia.workspace.findFiles('**/tests/*.test.ts', undefined).then(files => {
 
+        console.log("Found: ");
+        console.log(files);
+
         // Add files to the test suite
         files.forEach(f => mocha.addFile(path.resolve(f.path)));
 
