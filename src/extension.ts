@@ -22,7 +22,13 @@ export function start(context: theia.PluginContext): void {
         reporter: testReporter
     });
     mocha.useColors(true);
+
     const e = (c: any) => console.log(c);
+
+    theia.workspace.findFiles(`${context.extensionPath}/**/tests/*.test.ts`, undefined).then(files => {
+        console.log("Testing extension path: ");
+        console.log(context.extensionPath);
+    });
     theia.workspace.findFiles('**/tests/*.test.ts', undefined).then(files => {
 
         console.log("Found: ");
