@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  **********************************************************************/
 
-import * as che from '@eclipse-che/plugin';
+import * as testservice from '@eclipse-che/testing-service';
 import * as vscode from '@theia/plugin';
 import * as helper from './helper';
 import { extensionID } from './helper';
@@ -26,8 +26,10 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java Completion on sample java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-        const completion: any = await che.test.languageserver.completion(extensionID,
-            mySampleURI, {
+        const completion: any = await testservice.languageserver.completion(extensionID,
+            {
+                uri: mySampleURI
+            } as vscode.TextDocument, {
                 column: 1,
                 lineNumber: 13
             }, {
@@ -38,7 +40,9 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java Document Symbols on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-        const symbols = await che.test.languageserver.documentSymbols(extensionID, mySampleURI, new vscode.CancellationTokenSource().token);
+        const symbols = await testservice.languageserver.documentSymbols(extensionID, {
+            uri: mySampleURI
+        } as vscode.TextDocument, new vscode.CancellationTokenSource().token);
         assert.notEqual(symbols, undefined);
         if (symbols) {
             assert.equal(symbols.length, 2);
@@ -49,10 +53,12 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java implementation on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-        const implementation = await che.test.languageserver.implementation(extensionID, mySampleURI, {
-            column: 39,
-            lineNumber: 14
-        }, new vscode.CancellationTokenSource().token);
+        const implementation = await testservice.languageserver.implementation(extensionID, {
+            uri: mySampleURI
+        } as vscode.TextDocument, {
+                column: 39,
+                lineNumber: 14
+            }, new vscode.CancellationTokenSource().token);
         assert.notEqual(implementation, undefined);
         if (implementation && Array.isArray(implementation)) {
             assert.deepEqual(implementation[0].uri, myHelloTextURI);
@@ -71,10 +77,12 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java type definition on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-        const typeDefinition = await che.test.languageserver.typeDefinition(extensionID, mySampleURI, {
-            column: 35,
-            lineNumber: 14
-        }, new vscode.CancellationTokenSource().token);
+        const typeDefinition = await testservice.languageserver.typeDefinition(extensionID, {
+            uri: mySampleURI
+        } as vscode.TextDocument, {
+                column: 35,
+                lineNumber: 14
+            }, new vscode.CancellationTokenSource().token);
         if (typeDefinition && Array.isArray(typeDefinition)) {
             assert.deepEqual(typeDefinition[0].uri, myHelloTextURI);
             assert.deepEqual(typeDefinition[0].range, {
@@ -92,10 +100,12 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java hover on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-        const hover = await che.test.languageserver.hover(extensionID, mySampleURI, {
-            column: 35,
-            lineNumber: 14
-        }, new vscode.CancellationTokenSource().token);
+        const hover = await testservice.languageserver.hover(extensionID, {
+            uri: mySampleURI
+        } as vscode.TextDocument, {
+                column: 35,
+                lineNumber: 14
+            }, new vscode.CancellationTokenSource().token);
         if (hover) {
             assert.ok((hover.contents[0] as any).value.includes("org.my.sample.MyHelloText.MyHelloText()"));
             assert.deepEqual(hover.range, {
@@ -108,7 +118,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
     });
 
     it('Test Java Workspace Symbols on basic java file', async () => {
-        const workspaceSymbols = await che.test.languageserver.workspaceSymbols(extensionID, "MySample",
+        const workspaceSymbols = await testservice.languageserver.workspaceSymbols(extensionID, "MySample",
             new vscode.CancellationTokenSource().token);
         assert.notEqual(workspaceSymbols.length, 0, 'The workspace symbols request returned 0 results when it should have returned at least 1');
         assert.equal(workspaceSymbols[0].name, "MySample");
@@ -116,10 +126,12 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java references on basic java file', async () => {
         await vscode.window.showTextDocument(myHelloTextURI);
-        const references = await che.test.languageserver.references(extensionID, myHelloTextURI, {
-            column: 16,
-            lineNumber: 6
-        }, {
+        const references = await testservice.languageserver.references(extensionID, {
+            uri: myHelloTextURI
+        } as vscode.TextDocument, {
+                column: 16,
+                lineNumber: 6
+            }, {
                 includeDeclaration: true
             },
             new vscode.CancellationTokenSource().token);
@@ -137,10 +149,12 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java document links on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-        const renameEdits = await che.test.languageserver.renameEdits(extensionID, mySampleURI, {
-            column: 23,
-            lineNumber: 15
-        }, "text", new vscode.CancellationTokenSource().token);
+        const renameEdits = await testservice.languageserver.renameEdits(extensionID, {
+            uri: mySampleURI
+        } as vscode.TextDocument, {
+                column: 23,
+                lineNumber: 15
+            }, "text", new vscode.CancellationTokenSource().token);
         if (renameEdits) {
             assert.equal(renameEdits.edits.length, 1);
             assert.equal((renameEdits.edits as any[])[0].edits[0].text, "text = new MyHelloText();\n        return text");
@@ -152,10 +166,12 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java document formatting on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-        const formattingEdits = await che.test.languageserver.documentFormattingEdits(extensionID, mySampleURI, {
-            insertSpaces: true,
-            tabSize: 2
-        }, new vscode.CancellationTokenSource().token);
+        const formattingEdits = await testservice.languageserver.documentFormattingEdits(extensionID, {
+            uri: mySampleURI
+        } as vscode.TextDocument, {
+                insertSpaces: true,
+                tabSize: 2
+            }, new vscode.CancellationTokenSource().token);
         if (formattingEdits) {
             assert.equal(formattingEdits.length, 6);
             assert.equal(formattingEdits[0].text, "\n\n  ");
@@ -207,12 +223,14 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java range formatting on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-        const formattingEdits = await che.test.languageserver.documentRangeFormattingEdits(extensionID, mySampleURI, {
-            startColumn: 1,
-            startLineNumber: 1,
-            endColumn: 25,
-            endLineNumber: 10
-        }, {
+        const formattingEdits = await testservice.languageserver.documentRangeFormattingEdits(extensionID, {
+            uri: mySampleURI
+        } as vscode.TextDocument, {
+                startColumn: 1,
+                startLineNumber: 1,
+                endColumn: 25,
+                endLineNumber: 10
+            }, {
                 insertSpaces: true,
                 tabSize: 2
             }, new vscode.CancellationTokenSource().token);
