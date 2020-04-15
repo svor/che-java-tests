@@ -22,20 +22,21 @@ describe('Che-Java sample tests on Quarkus Project', () => {
         // Ensure all files are closed
         helper.closeAllOpenFiles();
     })
-
-    it('Test Java Completion on sample java file', async () => {
-        await vscode.window.showTextDocument(mySampleURI);
-        const args = {
-            uri: mySampleURI,
-            position: new Position(13, 1)
-        };
-        const completion = await vscode.commands.executeCommand("vscode.executeCompletionItemProvider", args) as CompletionList[];
-        if (!completion) {
-            assert.fail("Expected Completion");
-        } else {
-            assert.notEqual(completion.length, 0, 'The completion request returned 0 results when it should have returned at least 1');
-        }
-    });
+    
+//     vscode.executeCompletionItemProvider not yet implemented
+//     it('Test Java Completion on sample java file', async () => {
+//         await vscode.window.showTextDocument(mySampleURI);
+//         const args = {
+//             uri: mySampleURI,
+//             position: new Position(13, 1)
+//         };
+//         const completion = await vscode.commands.executeCommand("vscode.executeCompletionItemProvider", args) as CompletionList[];
+//         if (!completion) {
+//             assert.fail("Expected Completion");
+//         } else {
+//             assert.notEqual(completion.length, 0, 'The completion request returned 0 results when it should have returned at least 1');
+//         }
+//     });
 
     it('Test Java Document Symbols on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
@@ -130,18 +131,19 @@ describe('Che-Java sample tests on Quarkus Project', () => {
         }
 
     });
-
-    it('Test Java Workspace Symbols on basic java file', async () => {
-        const args = {
-            query: "MySample"
-        };
-        const workspaceSymbols = await vscode.commands.executeCommand("vscode.executeWorkspaceSymbolProvider", args) as SymbolInformation[];
-        if (!workspaceSymbols) {
-            assert.fail("Completion");
-        }
-        assert.notEqual(workspaceSymbols.length, 0, 'The workspace symbols request returned 0 results when it should have returned at least 1');
-        assert.equal(workspaceSymbols[0].name, "MySample");
-    });
+    
+//     vscode.executeWorkspaceSymbolProvider not yet implemented
+//     it('Test Java Workspace Symbols on basic java file', async () => {
+//         const args = {
+//             query: "MySample"
+//         };
+//         const workspaceSymbols = await vscode.commands.executeCommand("vscode.executeWorkspaceSymbolProvider", args) as SymbolInformation[];
+//         if (!workspaceSymbols) {
+//             assert.fail("Completion");
+//         }
+//         assert.notEqual(workspaceSymbols.length, 0, 'The workspace symbols request returned 0 results when it should have returned at least 1');
+//         assert.equal(workspaceSymbols[0].name, "MySample");
+//     });
 
     it('Test Java references on basic java file', async () => {
         await vscode.window.showTextDocument(myHelloTextURI);
