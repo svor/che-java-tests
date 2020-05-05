@@ -11,3 +11,6 @@ components:
     type: chePlugin
   - reference: https://raw.githubusercontent.com/JPinkney/Che-Java-Tests/master/meta.yaml
     type: chePlugin
+  - type: cheEditor
+    id: eclipse/che-theia/next
+    memoryLimit: 1024Mi
