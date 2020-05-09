@@ -22,29 +22,20 @@ describe('Che-Java sample tests on Quarkus Project', () => {
         // Ensure all files are closed
         helper.closeAllOpenFiles();
     })
-    
-//     vscode.executeCompletionItemProvider not yet implemented
-//     it('Test Java Completion on sample java file', async () => {
-//         await vscode.window.showTextDocument(mySampleURI);
-//         const args = {
-//             uri: mySampleURI,
-//             position: new Position(13, 1)
-//         };
-//         const completion = await vscode.commands.executeCommand("vscode.executeCompletionItemProvider", args) as CompletionList[];
-//         if (!completion) {
-//             assert.fail("Expected Completion");
-//         } else {
-//             assert.notEqual(completion.length, 0, 'The completion request returned 0 results when it should have returned at least 1');
-//         }
-//     });
+
+    it('Test Java Completion on sample java file', async () => {
+        await vscode.window.showTextDocument(mySampleURI);
+        const completion = await vscode.commands.executeCommand("vscode.executeCompletionItemProvider", mySampleURI, new Position(13, 1)) as CompletionList[];
+        if (!completion) {
+            assert.fail("Expected Completion");
+        } else {
+            assert.notEqual(completion.length, 0, 'The completion request returned 0 results when it should have returned at least 1');
+        }
+    });
 
     it('Test Java Document Symbols on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-
-        const args = {
-            uri: mySampleURI
-        };
-        const symbols = await vscode.commands.executeCommand("vscode.executeDocumentSymbolProvider", args) as DocumentSymbol[];
+        const symbols = await vscode.commands.executeCommand("vscode.executeDocumentSymbolProvider", mySampleURI) as DocumentSymbol[];
         if (!symbols) {
             assert.fail("Expected document symbols");
         } else {
@@ -56,12 +47,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java implementation on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-
-        const args = {
-            uri: mySampleURI,
-            position: new Position(14, 39)
-        };
-        const implementation = await vscode.commands.executeCommand("vscode.executeImplementationProvider", args) as Location[];
+        const implementation = await vscode.commands.executeCommand("vscode.executeImplementationProvider", mySampleURI, new Position(14, 39)) as Location[];
         if (!implementation) {
             assert.fail(
                 "Expected implementations"
@@ -85,12 +71,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java type definition on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-
-        const args = {
-            uri: mySampleURI,
-            position: new Position(14, 35)
-        };
-        const typeDefinition = await vscode.commands.executeCommand("vscode.executeTypeDefinitionProvider", args) as Location[];
+        const typeDefinition = await vscode.commands.executeCommand("vscode.executeTypeDefinitionProvider", mySampleURI, new Position(14, 35)) as Location[];
         if (!typeDefinition) {
             assert.fail("Completion");
         }
@@ -112,12 +93,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java hover on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-
-        const args = {
-            uri: mySampleURI,
-            position: new Position(14, 35)
-        };
-        const hover = await vscode.commands.executeCommand("vscode.executeHoverProvider", args) as Hover[];
+        const hover = await vscode.commands.executeCommand("vscode.executeHoverProvider", mySampleURI, new Position(14, 35)) as Hover[];
         if (!hover) {
             assert.fail("Completion");
         } else {
@@ -129,30 +105,20 @@ describe('Che-Java sample tests on Quarkus Project', () => {
                 startLineNumber: 14
             });
         }
-
     });
-    
-//     vscode.executeWorkspaceSymbolProvider not yet implemented
-//     it('Test Java Workspace Symbols on basic java file', async () => {
-//         const args = {
-//             query: "MySample"
-//         };
-//         const workspaceSymbols = await vscode.commands.executeCommand("vscode.executeWorkspaceSymbolProvider", args) as SymbolInformation[];
-//         if (!workspaceSymbols) {
-//             assert.fail("Completion");
-//         }
-//         assert.notEqual(workspaceSymbols.length, 0, 'The workspace symbols request returned 0 results when it should have returned at least 1');
-//         assert.equal(workspaceSymbols[0].name, "MySample");
-//     });
+
+    it('Test Java Workspace Symbols on basic java file', async () => {
+        const workspaceSymbols = await vscode.commands.executeCommand("vscode.executeWorkspaceSymbolProvider", "MySample") as SymbolInformation[];
+        if (!workspaceSymbols) {
+            assert.fail("Completion");
+        }
+        assert.notEqual(workspaceSymbols.length, 0, 'The workspace symbols request returned 0 results when it should have returned at least 1');
+        assert.equal(workspaceSymbols[0].name, "MySample");
+    });
 
     it('Test Java references on basic java file', async () => {
         await vscode.window.showTextDocument(myHelloTextURI);
-
-        const args = {
-            uri: myHelloTextURI,
-            position: new Position(6, 16)
-        };
-        const references = await vscode.commands.executeCommand("vscode.executeReferenceProvider", args) as Location[];
+        const references = await vscode.commands.executeCommand("vscode.executeReferenceProvider", myHelloTextURI, new Position(6, 16)) as Location[];
         if (!references) {
             assert.fail("Completion");
         } else {
@@ -169,15 +135,10 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java document formatting on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-
-        const args = {
-            uri: mySampleURI,
-            options: {
-                insertSpaces: true,
-                tabSize: 2
-            } as FormattingOptions
-        };
-        const formattingEdits = await vscode.commands.executeCommand("vscode.executeFormatDocumentProvider", args) as TextEdit[];
+        const formattingEdits = await vscode.commands.executeCommand("vscode.executeFormatDocumentProvider", mySampleURI, {
+            insertSpaces: true,
+            tabSize: 2
+        } as FormattingOptions) as TextEdit[];
         if (!formattingEdits) {
             assert.fail("Expected formatting edits");
         } else {
@@ -229,16 +190,10 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java range formatting on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
-
-        const args = {
-            uri: mySampleURI,
-            range: new Range(new Position(1, 1), new Position(10, 25)),
-            options: {
-                insertSpaces: true,
-                tabSize: 2
-            } as FormattingOptions
-        };
-        const formattingEdits = await vscode.commands.executeCommand("vscode.executeFormatRangeProvider", args) as TextEdit[];
+        const formattingEdits = await vscode.commands.executeCommand("vscode.executeFormatRangeProvider", mySampleURI, new Range(new Position(1, 1), new Position(10, 25)), {
+            insertSpaces: true,
+            tabSize: 2
+        } as FormattingOptions) as TextEdit[];
         if (!formattingEdits) {
             assert.fail("Expected formatting edits");
         } else {
