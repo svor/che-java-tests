@@ -11,7 +11,7 @@
 import * as vscode from '@theia/plugin';
 import * as helper from './helper';
 import { strict as assert } from 'assert';
-import { CompletionList, Position, DocumentSymbol, Location, Hover, SymbolInformation, Range, FormattingOptions, TextEdit } from 'vscode';
+import { Position, DocumentSymbol, Location, Hover, SymbolInformation, Range, FormattingOptions, TextEdit } from 'vscode';
 
 describe('Che-Java sample tests on Quarkus Project', () => {
 
@@ -23,15 +23,16 @@ describe('Che-Java sample tests on Quarkus Project', () => {
         helper.closeAllOpenFiles();
     })
 
-    it('Test Java Completion on sample java file', async () => {
-        await vscode.window.showTextDocument(mySampleURI);
-        const completion = await vscode.commands.executeCommand("vscode.executeCompletionItemProvider", mySampleURI, new Position(13, 1)) as CompletionList[];
-        if (!completion) {
-            assert.fail("Expected Completion");
-        } else {
-            assert.notEqual(completion.length, 0, 'The completion request returned 0 results when it should have returned at least 1');
-        }
-    });
+    // vscode.executeCompletionItemProvider hasn't been implemented yet
+    // it('Test Java Completion on sample java file', async () => {
+    //     await vscode.window.showTextDocument(mySampleURI);
+    //     const completion = await vscode.commands.executeCommand("vscode.executeCompletionItemProvider", mySampleURI, new Position(13, 1)) as CompletionList[];
+    //     if (!completion) {
+    //         assert.fail("Expected Completion");
+    //     } else {
+    //         assert.notEqual(completion.length, 0, 'The completion request returned 0 results when it should have returned at least 1');
+    //     }
+    // });
 
     it('Test Java Document Symbols on basic java file', async () => {
         await vscode.window.showTextDocument(mySampleURI);
@@ -56,12 +57,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
         if (implementation && Array.isArray(implementation)) {
             assert.deepEqual(implementation[0].uri, myHelloTextURI);
-            assert.deepEqual(implementation[0].range, {
-                endColumn: 23,
-                endLineNumber: 7,
-                startColumn: 12,
-                startLineNumber: 7
-            });
+            assert.deepEqual(implementation[0].range, new vscode.Range(new vscode.Position(7, 12), new vscode.Position(7, 23)));
         } else {
             assert.fail(
                 "Expected an array of implementations"
@@ -78,12 +74,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
         if (typeDefinition && Array.isArray(typeDefinition)) {
             assert.deepEqual(typeDefinition[0].uri, myHelloTextURI);
-            assert.deepEqual(typeDefinition[0].range, {
-                endColumn: 25,
-                endLineNumber: 3,
-                startColumn: 14,
-                startLineNumber: 3
-            });
+            assert.deepEqual(typeDefinition[0].range, new vscode.Range(new vscode.Position(3, 14), new vscode.Position(3, 25)));
         } else {
             assert.fail(
                 "Expected an array of type definitions"
@@ -98,12 +89,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
             assert.fail("Completion");
         } else {
             assert.ok((hover[0].contents[0] as any).value.includes("org.my.sample.MyHelloText.MyHelloText()"));
-            assert.deepEqual(hover[0].range, {
-                endColumn: 35,
-                endLineNumber: 14,
-                startColumn: 35,
-                startLineNumber: 14
-            });
+            assert.deepEqual(hover[0].range, new vscode.Range(new vscode.Position(14, 35), new vscode.Position(14, 35)));
         }
     });
 
@@ -124,12 +110,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
         } else {
             assert.notEqual(references.length, 0, 'The references request returned 0 results when it should have returned at least 1');
             assert.deepEqual(references[0].uri.path, mySampleURI.path);
-            assert.deepEqual(references[0].range, {
-                endColumn: 45,
-                endLineNumber: 15,
-                startColumn: 28,
-                startLineNumber: 15
-            });
+            assert.deepEqual(references[0].range, new vscode.Range(new vscode.Position(15, 28), new vscode.Position(15, 45)));
         }
     });
 
@@ -144,47 +125,17 @@ describe('Che-Java sample tests on Quarkus Project', () => {
         } else {
             assert.equal(formattingEdits.length, 6);
             assert.equal(formattingEdits[0].newText, "\n\n  ");
-            assert.deepEqual(formattingEdits[0].range, {
-                endColumn: 5,
-                endLineNumber: 11,
-                startColumn: 24,
-                startLineNumber: 9
-            });
+            assert.deepEqual(formattingEdits[0].range, new vscode.Range(new vscode.Position(9, 24), new vscode.Position(11, 5)));
             assert.equal(formattingEdits[1].newText, "\n  ");
-            assert.deepEqual(formattingEdits[1].range, {
-                endColumn: 5,
-                endLineNumber: 12,
-                startColumn: 9,
-                startLineNumber: 11
-            });
+            assert.deepEqual(formattingEdits[1].range, new vscode.Range(new vscode.Position(11, 9), new vscode.Position(12, 5)));
             assert.equal(formattingEdits[2].newText, "\n  ");
-            assert.deepEqual(formattingEdits[2].range, {
-                endColumn: 5,
-                endLineNumber: 13,
-                startColumn: 36,
-                startLineNumber: 12
-            });
+            assert.deepEqual(formattingEdits[2].range, new vscode.Range(new vscode.Position(12, 36), new vscode.Position(13, 5)));
             assert.equal(formattingEdits[3].newText, "\n\n    ");
-            assert.deepEqual(formattingEdits[3].range, {
-                endColumn: 9,
-                endLineNumber: 15,
-                startColumn: 28,
-                startLineNumber: 13
-            });
+            assert.deepEqual(formattingEdits[3].range, new vscode.Range(new vscode.Position(13, 28), new vscode.Position(15, 9)));
             assert.equal(formattingEdits[4].newText, "\n    ");
-            assert.deepEqual(formattingEdits[4].range, {
-                endColumn: 9,
-                endLineNumber: 16,
-                startColumn: 46,
-                startLineNumber: 15
-            });
+            assert.deepEqual(formattingEdits[4].range, new vscode.Range(new vscode.Position(15, 46), new vscode.Position(16, 9)));
             assert.equal(formattingEdits[5].newText, "\n  ");
-            assert.deepEqual(formattingEdits[5].range, {
-                endColumn: 5,
-                endLineNumber: 17,
-                startColumn: 31,
-                startLineNumber: 16
-            });
+            assert.deepEqual(formattingEdits[5].range, new vscode.Range(new vscode.Position(16, 31), new vscode.Position(17, 5)));
         }
     });
 
@@ -199,19 +150,9 @@ describe('Che-Java sample tests on Quarkus Project', () => {
         } else {
             assert.equal(formattingEdits.length, 2);
             assert.equal(formattingEdits[0].newText, "\n\n  ");
-            assert.deepEqual(formattingEdits[0].range, {
-                endColumn: 5,
-                endLineNumber: 11,
-                startColumn: 24,
-                startLineNumber: 9
-            });
+            assert.deepEqual(formattingEdits[0].range, new vscode.Range(new vscode.Position(9, 24), new vscode.Position(11, 5)));
             assert.equal(formattingEdits[1].newText, "\n  ");
-            assert.deepEqual(formattingEdits[1].range, {
-                endColumn: 5,
-                endLineNumber: 12,
-                startColumn: 9,
-                startLineNumber: 11
-            });
+            assert.deepEqual(formattingEdits[1].range, new vscode.Range(new vscode.Position(11, 9), new vscode.Position(12, 5)));
         }
     });
 
