@@ -12,4 +12,4 @@ category: Language
 firstPublicationDate: "2020-01-07"
 spec:
   extensions:
-    - https://github.com/JPinkney/Che-Java-Tests/raw/master/che_java_test_theia_plugin.theia
+    - https://github.com/svor/che-java-tests/raw/master/che_java_test_theia_plugin.theia
