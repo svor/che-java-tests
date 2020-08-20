@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  **********************************************************************/
 
-import * as vscode from '@theia/plugin';
+import * as theia from '@theia/plugin';
 import { strict as assert } from 'assert';
 import { closeAllOpenFiles, getSrcDocUri } from './helper';
 
@@ -20,29 +20,8 @@ describe('Test that vscode-java commands are working successfully', () => {
 
     before('Make sure vscode-java is activated', async () => {
         const myHelloTextURI = getSrcDocUri('MyHelloText.java');
-        await vscode.window.showTextDocument(myHelloTextURI);
+        await theia.window.showTextDocument(myHelloTextURI);
         closeAllOpenFiles();
-    });
-
-    it('Test Java Open all log files', async () => {
-
-        // Ensure all files are closed
-        closeAllOpenFiles();
-
-        // Then check if the serverLog command opens the server log
-        await vscode.commands.executeCommand(serverLogCmd);
-        const isServerLogFileOpen = vscode.window.visibleTextEditors.filter(editor => editor.document.fileName === '.log');
-        assert.ok(isServerLogFileOpen);
-    });
-
-    it('Test Java Open all log files', async () => {
-        // Ensure all files are closed
-        closeAllOpenFiles();
-
-        // Then check if the serverLog command opens the client log
-        await vscode.commands.executeCommand(clientLogCmd);
-        const isClientLogFileOpen = vscode.window.visibleTextEditors.filter(editor => editor.document.fileName.startsWith('client.log'));
-        assert.ok(isClientLogFileOpen);
     });
 
     it('Test Java Open all log files', async () => {
@@ -50,10 +29,30 @@ describe('Test that vscode-java commands are working successfully', () => {
         closeAllOpenFiles();
 
         // Then check if the serverLog command opens both the client log and the server log
-        await vscode.commands.executeCommand(openAllLogs);
-        const isServerLogFileOpen = vscode.window.visibleTextEditors.filter(editor => editor.document.fileName === '.log');
+        await theia.commands.executeCommand(openAllLogs);
+        const isServerLogFileOpen = theia.window.visibleTextEditors.filter(editor => editor.document.fileName === '.log');
         assert.ok(isServerLogFileOpen);
-        const isClientLogFileOpen = vscode.window.visibleTextEditors.filter(editor => editor.document.fileName.startsWith('client.log'));
+        const isClientLogFileOpen = theia.window.visibleTextEditors.filter(editor => editor.document.fileName.startsWith('client.log'));
+        assert.ok(isClientLogFileOpen);
+    });
+
+    it('Test Java Open server log file', async () => {
+        // Ensure all files are closed
+        closeAllOpenFiles();
+
+        // Then check if the serverLog command opens the server log
+        await theia.commands.executeCommand(serverLogCmd);
+        const isServerLogFileOpen = theia.window.visibleTextEditors.filter(editor => editor.document.fileName === '.log');
+        assert.ok(isServerLogFileOpen);
+    });
+
+    it('Test Java Open client log file', async () => {
+        // Ensure all files are closed
+        closeAllOpenFiles();
+
+        // Then check if the clientLog command opens the client log
+        await theia.commands.executeCommand(clientLogCmd);
+        const isClientLogFileOpen = theia.window.visibleTextEditors.filter(editor => editor.document.fileName.startsWith('client.log'));
         assert.ok(isClientLogFileOpen);
     });
 

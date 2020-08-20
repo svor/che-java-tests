@@ -26,9 +26,19 @@ export function start(context: theia.PluginContext): void {
 
     const e = (c: any) => console.log(c);
 
-    ncp(context.extensionPath, '/projects/Che-Java-Tests', (err: any) => {
+    ncp(context.extensionPath, '/projects/theia-projects-dir/Che-Java-Tests', async (err: any) => {
         if (err) {
             return console.error(err);
+        }
+
+        const getSrcDocPath = path.resolve(__dirname, '../testWorkspace/src/main/java/org/my/sample', 'MyHelloText.java');
+        const getSrcDocUri = theia.Uri.file(getSrcDocPath);
+        await theia.commands.executeCommand('file-search.openFile', getSrcDocUri);
+
+        let plugin = theia.plugins.getPlugin('redhat.java');
+        while (plugin && !plugin.isActive) {
+            await sleep(5000);
+            plugin = theia.plugins.getPlugin('redhat.java');
         }
 
         theia.workspace.findFiles('**/tests/*.test.ts', undefined).then(files => {
@@ -52,6 +62,10 @@ export function start(context: theia.PluginContext): void {
     });
 
 
+}
+
+export async function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 export function stop() {

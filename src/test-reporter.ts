@@ -2,7 +2,7 @@ import Mocha from 'mocha';
 module.exports = StreamLogReporter;
 
 var fs = require('fs');
-var writeStream = fs.createWriteStream('/projects/test.log', {
+var writeStream = fs.createWriteStream('/projects/theia-projects-dir/test.log', {
     encoding: 'utf8',
     flags: 'w'
 });
@@ -25,12 +25,12 @@ function StreamLogReporter(runner: any) {
     });
 
     runner.on('end', function() {
-        if (failures === 0) {
+        if (failures > 0) {
             console.log('FINISH: %d/%d', passes, passes + failures);
-            writeStream.write(`TESTS FAILED: ${passes}/${passes + failures}`);
+            writeStream.write(`TESTS FAILED: ${passes}/${passes + failures}` + '\n');
         } else {
             console.log('FINISH: %d/%d', passes, passes + failures);
-            writeStream.write(`TESTS PASSED: ${passes}/${passes + failures}`);
+            writeStream.write(`TESTS PASSED: ${passes}/${passes + failures}` + '\n');
         }
     });
 }
