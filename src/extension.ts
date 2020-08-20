@@ -26,7 +26,7 @@ export function start(context: theia.PluginContext): void {
 
     const e = (c: any) => console.log(c);
 
-    ncp(context.extensionPath, 'type: cheEditor', async (err: any) => {
+    ncp(context.extensionPath, '/projects/Che-Java-Tests', async (err: any) => {
         if (err) {
             return console.error(err);
         }
