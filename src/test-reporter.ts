@@ -2,7 +2,7 @@ import Mocha from 'mocha';
 module.exports = StreamLogReporter;
 
 var fs = require('fs');
-var writeStream = fs.createWriteStream('/projects/theia-projects-dir/test.log', {
+var writeStream = fs.createWriteStream('/projects/test.log', {
     encoding: 'utf8',
     flags: 'w'
 });
