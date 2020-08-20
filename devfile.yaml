@@ -1,16 +1,11 @@
 apiVersion: 1.0.0
 metadata:
   name: che-java-sample-tests
-projects:
-  - name: che-java-test-theia-plugin
-    source:
-      location: 'https://github.com/jpinkney/che-java-test-theia-plugin.git'
-      type: git
 components:
   - id: redhat/java8/latest
     type: chePlugin
-  - reference: https://raw.githubusercontent.com/JPinkney/Che-Java-Tests/master/meta.yaml
+  - reference: https://raw.githubusercontent.com/svor/che-java-tests/sv/tests/meta.yaml
     type: chePlugin
-  - type: cheEditor
-    id: eclipse/che-theia/next
+  - reference: https://raw.githubusercontent.com/svor/che-plugin-registry/sv/che-theia2/v3/plugins/eclipse/che-theia/next/meta.yaml
     memoryLimit: 1024Mi
+    type: cheEditor
