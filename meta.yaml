@@ -1,5 +1,5 @@
 apiVersion: v2
-publisher: RedHat
+publisher: Red Hat
 name: Java-Smoke-Test-Plugin
 version: 0.0.1
 type: Theia plugin
