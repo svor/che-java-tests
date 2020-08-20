@@ -31,16 +31,6 @@ export function start(context: theia.PluginContext): void {
             return console.error(err);
         }
 
-        const getSrcDocPath = path.resolve(__dirname, '../testWorkspace/src/main/java/org/my/sample', 'MyHelloText.java');
-        const getSrcDocUri = theia.Uri.file(getSrcDocPath);
-        await theia.commands.executeCommand('file-search.openFile', getSrcDocUri);
-
-        let plugin = theia.plugins.getPlugin('redhat.java');
-        while (plugin && !plugin.isActive) {
-            await sleep(5000);
-            plugin = theia.plugins.getPlugin('redhat.java');
-        }
-
         theia.workspace.findFiles('**/tests/*.test.ts', undefined).then(files => {
             console.log("Found: ");
             console.log(files);
