@@ -19,7 +19,7 @@ export function closeAllOpenFiles() {
 export async function sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-export const getSrcDocPath = (p: string) => path.resolve(__dirname, '../testWorkspace/src/main/java/org/my/sample', p);
+export const getSrcDocPath = (p: string) => path.resolve('/projects/Che-Java-Tests/testWorkspace/src/main/java/org/my/sample', p);
 export const getSrcDocUri = (p: string) => theia.Uri.file(getSrcDocPath(p));
 
 // Try to restore Position object from its serialized content

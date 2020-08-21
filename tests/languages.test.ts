@@ -87,8 +87,7 @@ describe('Che-Java sample tests on Quarkus Project', () => {
 
     it('Test Java type definition on basic java file', async () => {
         await theia.window.showTextDocument(mySampleURI);
-
-        const typeDefinition = await che.languages.test.definition(
+        const typeDefinition = await che.languages.test.typeDefinition(
             extensionID,
             mySampleURI,
             new theia.Position(14, 35),
@@ -102,8 +101,8 @@ describe('Che-Java sample tests on Quarkus Project', () => {
                 assert.deepEqual(
                     reviveRange(definition.range),
                     new theia.Range(
-                        new theia.Position(6, 22),
-                        new theia.Position(6, 11)
+                        new theia.Position(2, 24),
+                        new theia.Position(2, 13)
                     )
                 );
             }
