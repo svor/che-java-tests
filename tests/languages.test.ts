@@ -1,5 +1,5 @@
 /*********************************************************************
- * Copyright (c) 2020 Red Hat, Inc.
+ * Copyright (c) 2019 Red Hat, Inc.
  *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -11,7 +11,7 @@
 import * as theia from '@theia/plugin';
 import * as che from '@eclipse-che/plugin';
 import * as helper from './helper';
-import { extensionID, reviveRange } from './helper';
+import { extensionID } from './helper';
 import { strict as assert } from 'assert';
 
 describe('Che-Java sample tests on Quarkus Project', () => {
@@ -70,8 +70,9 @@ describe('Che-Java sample tests on Quarkus Project', () => {
             if (implementation[0].hasOwnProperty('uri')) {
                 const impl: theia.Location = implementation[0] as theia.Location;
                 assert.deepEqual(impl.uri, myHelloTextURI);
+                const range: theia.Range = impl.range;
                 assert.deepEqual(
-                    reviveRange(impl.range),
+                    range,
                     new theia.Range(
                         new theia.Position(6, 22),
                         new theia.Position(6, 11)
@@ -98,8 +99,9 @@ describe('Che-Java sample tests on Quarkus Project', () => {
             if (typeDefinition[0].hasOwnProperty('uri')) {
                 const definition: theia.Location = typeDefinition[0] as theia.Location;
                 assert.deepEqual(definition.uri, myHelloTextURI);
+                const range: theia.Range = definition.range;
                 assert.deepEqual(
-                    reviveRange(definition.range),
+                    range,
                     new theia.Range(
                         new theia.Position(2, 24),
                         new theia.Position(2, 13)
@@ -117,9 +119,10 @@ describe('Che-Java sample tests on Quarkus Project', () => {
         await theia.window.showTextDocument(mySampleURI);
         const hover = await che.languages.test.hover(extensionID, mySampleURI, new theia.Position(14, 35), new theia.CancellationTokenSource().token);
         if (hover) {
+            const range: theia.Range | undefined = hover.range;
             assert.ok((hover.contents[0] as any).value.includes("org.my.sample.MyHelloText.MyHelloText()"));
             assert.deepEqual(
-                reviveRange(hover.range),
+                range,
                 new theia.Range(
                     new theia.Position(14, 31),
                     new theia.Position(14, 42)
@@ -148,8 +151,9 @@ describe('Che-Java sample tests on Quarkus Project', () => {
         if (references) {
             assert.notEqual(references.length, 0, 'The references request returned 0 results when it should have returned at least 1');
             assert.deepEqual(references[0].uri.path, mySampleURI.path);
+            const range: theia.Range = references[0].range;
             assert.deepEqual(
-                reviveRange(references[0].range),
+                range,
                 new theia.Range(
                     new theia.Position(14, 27),
                     new theia.Position(14, 44)
@@ -166,48 +170,54 @@ describe('Che-Java sample tests on Quarkus Project', () => {
         if (formattingEdits) {
             assert.equal(formattingEdits.length, 6);
             assert.equal(formattingEdits[0].newText, "\n\n  ");
+            const range0: theia.Range = formattingEdits[0].range;
             assert.deepEqual(
-                reviveRange(formattingEdits[0].range),
+                range0,
                 new theia.Range(
                     new theia.Position(8, 23),
                     new theia.Position(10, 4)
                 )
             );
             assert.equal(formattingEdits[1].newText, "\n  ");
+            const range1: theia.Range = formattingEdits[1].range;
             assert.deepEqual(
-                reviveRange(formattingEdits[1].range),
+                range1,
                 new theia.Range(
                     new theia.Position(10, 8),
                     new theia.Position(11, 4)
                 )
             );
             assert.equal(formattingEdits[2].newText, "\n  ");
+            const range2: theia.Range = formattingEdits[2].range;
             assert.deepEqual(
-                reviveRange(formattingEdits[2].range),
+                range2,
                 new theia.Range(
                     new theia.Position(11, 35),
                     new theia.Position(12, 4)
                 )
             );
             assert.equal(formattingEdits[3].newText, "\n\n    ");
+            const range3: theia.Range = formattingEdits[3].range;
             assert.deepEqual(
-                reviveRange(formattingEdits[3].range),
+                range3,
                 new theia.Range(
                     new theia.Position(12, 27),
                     new theia.Position(14, 8)
                 )
             );
             assert.equal(formattingEdits[4].newText, "\n    ");
+            const range4: theia.Range = formattingEdits[4].range;
             assert.deepEqual(
-                reviveRange(formattingEdits[4].range),
+                range4,
                 new theia.Range(
                     new theia.Position(14, 45),
                     new theia.Position(15, 8)
                 )
             );
             assert.equal(formattingEdits[5].newText, "\n  ");
+            const range5: theia.Range = formattingEdits[5].range;
             assert.deepEqual(
-                helper.reviveRange(formattingEdits[5].range),
+                range5,
                 new theia.Range(
                     new theia.Position(15, 30),
                     new theia.Position(16, 4)
@@ -233,15 +243,17 @@ describe('Che-Java sample tests on Quarkus Project', () => {
         if (formattingEdits) {
             assert.equal(formattingEdits.length, 2);
             assert.equal(formattingEdits[0].newText, "\n\n  ");
+            const range0: theia.Range = formattingEdits[0].range;
             assert.deepEqual(
-                reviveRange(formattingEdits[0].range),
+                range0,
                 new theia.Range(
                     new theia.Position(8, 23),
                     new theia.Position(10, 4)
                 ));
             assert.equal(formattingEdits[1].newText, "\n  ");
+            const range1: theia.Range = formattingEdits[1].range;
             assert.deepEqual(
-                reviveRange(formattingEdits[1].range),
+                range1,
                 new theia.Range(
                     new theia.Position(10, 8),
                     new theia.Position(11, 4)
