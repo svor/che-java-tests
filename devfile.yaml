@@ -4,8 +4,8 @@ metadata:
 components:
   - id: redhat/java11/latest
     type: chePlugin
-  - reference: https://raw.githubusercontent.com/svor/che-java-tests/sv/tests/meta.yaml
+  - reference: https://raw.githubusercontent.com/che-incubator/che-java-tests/master/meta.yaml
     type: chePlugin
-  - reference: https://raw.githubusercontent.com/svor/che-plugin-registry/sv/che-theia2/v3/plugins/eclipse/che-theia/next/meta.yaml
+  - type: cheEditor
+    id: eclipse/che-theia/next
     memoryLimit: 1024Mi
-    type: cheEditor
