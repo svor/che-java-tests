@@ -37,7 +37,7 @@ function StreamLogReporter(runner: any) {
     runner.on('end', function() {
         if (failures > 0) {
             console.log('FINISH: %d/%d', passes, passes + failures);
-            writeStream.write(`TESTS FAILED: ${passes}/${passes + failures}` + '\n');
+            writeStream.write(`TESTS FAILED: ${passes}/${passes + failures}\n`);
         } else {
             console.log('FINISH: %d/%d', passes, passes + failures);
             writeStream.write(`TESTS PASSED: ${passes}/${passes + failures}\n`);
