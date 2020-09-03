@@ -55,22 +55,22 @@ export function start(context: theia.PluginContext): void {
     });
 }
 
-function activateJavaLSPlugin(): Promise<void> {
-    return Promise.resolve(theia.workspace.findFiles('MyHelloText.java', null, 1)).then(async file => {
-        if (!file[0]) {
-            return console.error('Cannot find java file');
-        }
-        const textDocument = await theia.workspace.openTextDocument(file[0]);
-        if (!textDocument) {
-            return console.error('Cannot open java file');
-        }
-        let plugin = theia.plugins.getPlugin('redhat.java');
-        if (plugin) {
-            return await plugin.activate()
-        } else {
-            return console.error('No redhat.java plugin');
-        }
-    });
+async function activateJavaLSPlugin(): Promise<void> {
+    const files = await theia.workspace.findFiles('MyHelloText.java', null, 1);
+    if (files.length != 1) {
+        throw new Error('Cannot find java file');
+    }
+    const file = files[0];
+    const textDocument = await theia.workspace.openTextDocument(file);
+    if (!textDocument) {
+        throw new Error('Cannot open java file');
+    }
+    let plugin = theia.plugins.getPlugin('redhat.java');
+    if (plugin) {
+        return await plugin.activate()
+    } else {
+        throw new Error('No redhat.java plugin');
+    }
 }
 
 export function stop() {
