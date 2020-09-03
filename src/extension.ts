@@ -25,38 +25,38 @@ export function start(context: theia.PluginContext): void {
     mocha.useColors(true);
 
     const e = (c: any) => console.log(c);
-    ncp(context.extensionPath, '/projects/Che-Java-Tests', (err: any) => {
+    ncp(context.extensionPath, '/projects/Che-Java-Tests', async (err: any) => {
         if (err) {
             return console.error(err);
         }
-        activateJavaLSPlugin().then(() => {
-            theia.workspace.findFiles('**/tests/*.test.ts', undefined).then(files => {
-                console.log("Found: ");
-                console.log(files);
 
-                // Add files to the test suite
-                files.forEach(f => mocha.addFile(path.resolve(f.path)));
+        await activateJavaLSPlugin();
 
-                try {
-                    // Run the mocha test
-                    mocha.run((failures: any) => {
-                        theia.window.showInformationMessage('Tests completed! See results in test.log file');
-                        const resultFile = path.resolve('/projects', 'test.log');
-                        theia.commands.executeCommand('file-search.openFile', resultFile)
-                        if (failures > 0) {
-                            e(new Error(`${failures} tests failed.`));
-                        }
-                    });
-                } catch (err) {
-                    e(err);
+        const testFiles = await theia.workspace.findFiles('**/tests/*.test.ts', undefined)
+        console.log("Found: ");
+        console.log(testFiles);
+
+        // Add files to the test suite
+        testFiles.forEach(f => mocha.addFile(path.resolve(f.path)));
+
+        try {
+            // Run the mocha test
+            mocha.run((failures: any) => {
+                theia.window.showInformationMessage('Tests completed! See results in test.log file');
+                const resultFile = path.resolve('/projects', 'test.log');
+                theia.commands.executeCommand('file-search.openFile', resultFile)
+                if (failures > 0) {
+                    e(new Error(`${failures} tests failed.`));
                 }
             });
-        });
+        } catch (err) {
+            e(err);
+        }
     });
 }
 
 async function activateJavaLSPlugin(): Promise<void> {
-    const files = await theia.workspace.findFiles('MyHelloText.java', null, 1);
+    const files = await theia.workspace.findFiles('MyHelloText.java', undefined, 1);
     if (files.length != 1) {
         throw new Error('Cannot find java file');
     }
