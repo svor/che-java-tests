@@ -29,36 +29,47 @@ export function start(context: theia.PluginContext): void {
         if (err) {
             return console.error(err);
         }
-        const getSrcDocPath = path.resolve('/projects/Che-Java-Tests/testWorkspace/src/main/java/org/my/sample', 'MyHelloText.java');
-        const getSrcDocUri = theia.Uri.file(getSrcDocPath);
-        theia.commands.executeCommand('file-search.openFile', getSrcDocUri).then(() => {
-            let plugin = theia.plugins.getPlugin('redhat.java');
-            if (plugin) {
-                plugin.activate().then(() => {
-                    theia.workspace.findFiles('**/tests/*.test.ts', undefined).then(files => {
-                        console.log("Found: ");
-                        console.log(files);
+        activateJavaLSPlugin().then(() => {
+            theia.workspace.findFiles('**/tests/*.test.ts', undefined).then(files => {
+                console.log("Found: ");
+                console.log(files);
 
-                        // Add files to the test suite
-                        files.forEach(f => mocha.addFile(path.resolve(f.path)));
+                // Add files to the test suite
+                files.forEach(f => mocha.addFile(path.resolve(f.path)));
 
-                        try {
-                            // Run the mocha test
-                            mocha.run((failures: any) => {
-                                theia.window.showInformationMessage('Tests completed! See results in test.log file');
-                                const resultFile = path.resolve('/projects', 'test.log');
-                                theia.commands.executeCommand('file-search.openFile', resultFile)
-                                if (failures > 0) {
-                                    e(new Error(`${failures} tests failed.`));
-                                }
-                            });
-                        } catch (err) {
-                            e(err);
+                try {
+                    // Run the mocha test
+                    mocha.run((failures: any) => {
+                        theia.window.showInformationMessage('Tests completed! See results in test.log file');
+                        const resultFile = path.resolve('/projects', 'test.log');
+                        theia.commands.executeCommand('file-search.openFile', resultFile)
+                        if (failures > 0) {
+                            e(new Error(`${failures} tests failed.`));
                         }
                     });
-                });
-            }
+                } catch (err) {
+                    e(err);
+                }
+            });
         });
+    });
+}
+
+function activateJavaLSPlugin(): Promise<void> {
+    return Promise.resolve(theia.workspace.findFiles('MyHelloText.java', null, 1)).then(async file => {
+        if (!file[0]) {
+            return console.error('Cannot find java file');
+        }
+        const textDocument = await theia.workspace.openTextDocument(file[0]);
+        if (!textDocument) {
+            return console.error('Cannot open java file');
+        }
+        let plugin = theia.plugins.getPlugin('redhat.java');
+        if (plugin) {
+            return await plugin.activate()
+        } else {
+            return console.error('No redhat.java plugin');
+        }
     });
 }
 
